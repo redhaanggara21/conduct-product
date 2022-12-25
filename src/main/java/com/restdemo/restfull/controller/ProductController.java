@@ -20,7 +20,7 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping("/get")
-    public ResponseEntity<List<Product>> getAllProducts(
+    public ResponseEntity<List<Product>> getAll(
                     @RequestParam(name = "name",
                     required = false,
                     defaultValue = ""
@@ -48,10 +48,10 @@ public class ProductController {
             @PathVariable("id") Long id
     ) {
 
-        Optional<Product> productData = productRepository.findById(id);
+        Optional<Product> datas = productRepository.findById(id);
 
-        if (productData.isPresent()) {
-            return new ResponseEntity<>(productData.get(), HttpStatus.OK);
+        if (datas.isPresent()) {
+            return new ResponseEntity<>(datas.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,10 +61,10 @@ public class ProductController {
     public ResponseEntity<Product> create(
             @RequestBody Product customer) {
         try {
-            Product newProduct = new Product();
-            newProduct.setName(customer.getName());
-            newProduct.setDescription(customer.getDescription());
-            return new ResponseEntity<>(productRepository.save(newProduct), HttpStatus.CREATED);
+            Product create = new Product();
+            create.setName(customer.getName());
+            create.setDescription(customer.getDescription());
+            return new ResponseEntity<>(productRepository.save(create), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
